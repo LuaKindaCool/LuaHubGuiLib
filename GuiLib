@@ -242,12 +242,14 @@ function module:Init()
 					local Setter = CreateSetter(unpack(Creating[1]))
 					table.insert(Created, {Creating[1][1], Setter})
 					table.remove(Creating, 1)
+					task.wait(.1)
 					IsCreatingObj = false
 				elseif Creating[1][1] == "Button" then
 					table.remove(Creating[1], 1)
 					local Button = CreateButton(unpack(Creating[1]))
 					table.insert(Created, {Creating[1][1], Button})
 					table.remove(Creating, 1)
+					task.wait(.1)
 					IsCreatingObj = false
 				end
 			end
