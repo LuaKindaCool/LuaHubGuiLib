@@ -1,7 +1,8 @@
 local module = {}
 local LastObjPos
 local CurrentObjY
-local The = {}
+local Creating = {}
+local Created = {}
 local IsCreatingObj = false
 
 function module:CreateWindow()
@@ -15,7 +16,7 @@ function module:CreateWindow()
 	local Scroller = Instance.new("ScrollingFrame")
 	
 	LuaHub.Name = "LuaHub"
-	LuaHub.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+	LuaHub.Parent = game.CoreGui
 
 	BackgroundFrame.Name = "BackgroundFrame"
 	BackgroundFrame.Parent = LuaHub
@@ -193,28 +194,42 @@ function CreateSetter(SetterTitle, Window)
 end
 
 function module:CreateButton(ButtonTitle, Window)
-	table.insert(The, {"Button", ButtonTitle, Window})
+	table.insert(Creating, {"Button", ButtonTitle, Window})
+	repeat 
+		task.wait()
+	until Created[1] and Created[1][1] == ButtonTitle
+	local Button = Created[1][2]
+	table.remove(Created, 1)
+	return Button
 end
 
 function module:CreateSetter(SetterTitle, Window)
-	table.insert(The, {"Setter", SetterTitle, Window})
+	table.insert(Creating, {"Setter", SetterTitle, Window})
+	repeat 
+		task.wait()
+	until Created[1] and Created[1][1] == SetterTitle
+	local TextBox = Created[1][2]
+	table.remove(Created, 1)
+	return TextBox
 end
 
 function module:Init()
 	task.spawn(function()
 		while task.wait() do
 			if IsCreatingObj then return end
-			if The[1] then
+			if Creating[1] then
 				IsCreatingObj = true
-				if The[1][1] == "Setter" then
-					table.remove(The[1], 1)
-					CreateSetter(unpack(The[1]))
-					table.remove(The, 1)
+				if Creating[1][1] == "Setter" then
+					table.remove(Creating[1], 1)
+					local Setter = CreateSetter(unpack(Creating[1]))
+					table.insert(Created, {Creating[1][1], Setter})
+					table.remove(Creating, 1)
 					IsCreatingObj = false
-				elseif The[1][1] == "Button" then
-					table.remove(The[1], 1)
-					CreateButton(unpack(The[1]))
-					table.remove(The, 1)
+				elseif Creating[1][1] == "Button" then
+					table.remove(Creating[1], 1)
+					local Button = CreateButton(unpack(Creating[1]))
+					table.insert(Created, {Creating[1][1], Button})
+					table.remove(Creating, 1)
 					IsCreatingObj = false
 				end
 			end
