@@ -3,7 +3,22 @@ local LastObjPos
 local CurrentObjY
 local Creating = {}
 local Created = {}
+local ToggleConnection
 local IsCreatingObj = false
+local UIS = game:GetService("UserInputService")
+
+function module:SetToggle(ToggleKey, Window)
+	if ToggleConnection then
+		ToggleConnection:Disconnect()
+	end
+
+	ToggleConnection = UIS.InputBegan:Connect(function(Input, GPE)
+		if GPE then return end
+		if Input.KeyCode == ToggleKey then
+			Window.Parent.Parent.Enabled = not Window.Parent.Parent.Enabled
+		end
+	end)
+end
 
 function module:CreateWindow()
 	LastObjPos = nil
@@ -23,6 +38,7 @@ function module:CreateWindow()
 	BackgroundFrame.BackgroundColor3 = Color3.new(0.239216, 0.239216, 0.239216)
 	BackgroundFrame.Position = UDim2.new(0.0401606448, 0, 0.255574614, 0)
 	BackgroundFrame.Size = UDim2.new(0, 535, 0, 322)
+	BackgroundFrame.Draggable = true
 
 	UICorner.Parent = BackgroundFrame
 
@@ -49,6 +65,8 @@ function module:CreateWindow()
 	Scroller.Size = UDim2.new(0, 535, 0, 257)
 	Scroller.SizeConstraint = Enum.SizeConstraint.RelativeYY
 	Scroller.ScrollBarThickness = 0
+	
+	module:SetToggle(Enum.KeyCode.M, Scroller)
 	
 	return Scroller
 end
