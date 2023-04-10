@@ -39,6 +39,7 @@ function module:CreateWindow()
 	BackgroundFrame.Position = UDim2.new(0.0401606448, 0, 0.255574614, 0)
 	BackgroundFrame.Size = UDim2.new(0, 535, 0, 322)
 	BackgroundFrame.Draggable = true
+	BackgroundFrame.Active = true
 
 	UICorner.Parent = BackgroundFrame
 
