@@ -141,8 +141,8 @@ function CreateButton(ButtonTitle, Window)
 		ButtonFrame.Position = UDim2.new(0.697, 0,0.009, 0)
 		LastObjPos = ButtonFrame.Position
 	elseif tostring(LastObjPos.X.Scale):sub(1, 5) == "0.697" then
-		ButtonFrame.Position = UDim2.new(0.017, 0, CurrentObjY + 0.188, 0)
 		CurrentObjY += 0.188
+		ButtonFrame.Position = UDim2.new(0.017, 0, CurrentObjY, 0)
 		LastObjPos = ButtonFrame.Position
 	end
 	
@@ -203,8 +203,8 @@ function CreateSetter(SetterTitle, Window)
 		SetterFrame.Position = UDim2.new(0.697, 0,0.009, 0)
 		LastObjPos = SetterFrame.Position
 	elseif tostring(LastObjPos.X.Scale):sub(1, 5) == "0.697" then
-		SetterFrame.Position = UDim2.new(0.017, 0, CurrentObjY + 0.188, 0)
 		CurrentObjY += 0.188
+		SetterFrame.Position = UDim2.new(0.017, 0, CurrentObjY, 0)
 		LastObjPos = SetterFrame.Position
 	end
 	
